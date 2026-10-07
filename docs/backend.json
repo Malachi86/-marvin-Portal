@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Information about a student, teacher, or admin.",
+      "type": "object",
+      "properties": {
+        "usn_emp": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "teacher", "student", "library_admin", "guard"] },
+        "department": { "type": "string", "enum": ["college", "shs"] },
+        "profilePic": { "type": "string" },
+        "lastSeen": { "type": "string", "format": "date-time" },
+        "isBanned": { "type": "boolean" },
+        "deviceFingerprint": { "type": "string", "description": "The registered ID of the device used by this user." }
+      },
+      "required": ["usn_emp", "name", "email", "role"]
+    },
+    "Device": {
+      "title": "Registered Device",
+      "description": "Records of devices that have visited the application.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "firstVisit": { "type": "string", "format": "date-time" },
+        "lastVisit": { "type": "string", "format": "date-time" },
+        "userAgent": { "type": "string" },
+        "ipHint": { "type": "string" },
+        "isBanned": { "type": "boolean" },
+        "violationCount": { "type": "number" },
+        "associatedUser": { "type": "string" }
+      },
+      "required": ["id", "firstVisit", "lastVisit"]
+    },
+    "BannedDevice": {
+      "title": "Banned Device",
+      "description": "Blacklisted device IDs that are blocked from all operations.",
+      "type": "object",
+      "properties": {
+        "deviceId": { "type": "string" },
+        "reason": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["deviceId", "timestamp"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "termId": { "type": "string" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles."
+    },
+    "/devices/{deviceId}": {
+      "schema": "Device",
+      "description": "Registry of visiting devices."
+    },
+    "/banned_devices/{deviceId}": {
+      "schema": "BannedDevice",
+      "description": "Blacklist for malicious devices."
+    }
+  }
+}

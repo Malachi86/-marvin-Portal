@@ -1,0 +1,52 @@
+type User @table {
+  displayName: String!
+  email: String!
+  role: String!
+  createdAt: Timestamp!
+  photoUrl: String
+}
+
+type Course @table {
+  title: String!
+  description: String!
+  startDate: Date!
+  endDate: Date!
+  createdAt: Timestamp!
+  educator: User
+  imageUrl: String
+}
+
+type Lesson @table {
+  title: String!
+  content: String!
+  orderIndex: Int!
+  createdAt: Timestamp!
+  course: Course
+  lessonType: String
+}
+
+type Enrollment @table(key: ["student", "course"]) {
+  enrollmentDate: Date!
+  status: String!
+  createdAt: Timestamp!
+  student: User!
+  course: Course!
+  completionDate: Date
+}
+
+type Progress @table(key: ["enrollment", "lesson"]) {
+  status: String!
+  createdAt: Timestamp!
+  enrollment: Enrollment!
+  lesson: Lesson!
+  completionDate: Date
+}
+
+type DiscussionPost @table {
+  content: String!
+  createdAt: Timestamp!
+  author: User
+  course: Course
+  lesson: Lesson
+  parentPost: DiscussionPost
+}

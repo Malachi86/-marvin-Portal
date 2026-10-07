@@ -1,0 +1,52 @@
+query GetMyEnrolledCourses @auth(level: USER) {
+  enrollments(where: { studentId: { eq_expr: "auth.uid" } }) {
+    enrollmentDate
+    status
+    course {
+      title
+      description
+      educator {
+        displayName
+      }
+    }
+  }
+}
+
+mutation CreateDiscussionPost($content: String!, $courseId: UUID, $lessonId: UUID, $parentPostId: UUID) @auth(level: USER) {
+  discussionPost_insert(
+    data: {
+      content: $content
+      authorId_expr: "auth.uid"
+      courseId: $courseId
+      lessonId: $lessonId
+      parentPostId: $parentPostId
+      createdAt_expr: "request.time"
+    }
+  ) {
+    id
+  }
+}
+
+query GetCourseLessons($courseId: UUID!) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  lessons(where: { courseId: { eq: $courseId } }, orderBy: [{ orderIndex: ASC }]) {
+    id
+    title
+    content
+    orderIndex
+  }
+}
+
+mutation EnrollUserInCourse($courseId: UUID!) @auth(level: USER) {
+  enrollment_insert(
+    data: {
+      studentId_expr: "auth.uid"
+      courseId: $courseId
+      enrollmentDate_expr: "request.time.toDate()"
+      status: "Enrolled"
+      createdAt_expr: "request.time"
+    }
+  ) {
+    studentId
+    courseId
+  }
+}

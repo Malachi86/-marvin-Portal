@@ -1,0 +1,29 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-education",
+      "description": "A modern school classroom setting",
+      "imageUrl": "https://picsum.photos/seed/edu1/1200/600",
+      "imageHint": "classroom education"
+    },
+    {
+      "id": "user-avatar-1",
+      "description": "Student portrait 1",
+      "imageUrl": "https://picsum.photos/seed/stud1/150/150",
+      "imageHint": "student portrait"
+    },
+    {
+      "id": "user-avatar-2",
+      "description": "Student portrait 2",
+      "imageUrl": "https://picsum.photos/seed/stud2/150/150",
+      "imageHint": "student portrait"
+    },
+    {
+      "id": "admin-profile",
+      "description": "Professional teacher portrait",
+      "imageUrl": "https://picsum.photos/seed/teach1/150/150",
+      "imageHint": "teacher professional"
+    }
+  ]
+}
